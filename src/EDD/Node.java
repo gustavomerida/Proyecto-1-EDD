@@ -5,9 +5,18 @@
 package EDD;
 
 /**
- *
- * @author Gustavo
+ * 
+ * @author Gustavo Mérida
+ * Version 2
  */
-public class Node {
+public class Nodo <T> {
+    protected T tInfo;
+    protected Nodo <T> pNext;
     
+    //Constructor
+    public Nodo(T elem){
+        this.tInfo=elem;
+        this.pNext=null;
+        
+    } 
 }
