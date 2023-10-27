@@ -4,6 +4,8 @@
  */
 package proyecto_1_edd;
 
+import GUI.*;
+import Clases.*;
 /**
  *
  * @author Gustavo
@@ -15,6 +17,8 @@ public class Proyecto_1_EDD {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Funciones.abrir_ventana();
+        
     }
     
 }
