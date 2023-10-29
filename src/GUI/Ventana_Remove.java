@@ -13,7 +13,8 @@ import proyecto_1_edd.*;
  * @author Gustavo
  */
 public class Ventana_Remove extends javax.swing.JFrame {
-
+    List Usuarios;
+    Ventana_Principal origen;
     /**
      * Creates new form Ventana_Remove
      */
@@ -22,6 +23,12 @@ public class Ventana_Remove extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    public Ventana_Remove(List lista_grafo, Ventana_Principal origen) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        Usuarios = lista_grafo;
+        this.origen = origen;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,6 +114,10 @@ public class Ventana_Remove extends javax.swing.JFrame {
 
     private void boton_remove_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_remove_userActionPerformed
         // TODO add your handling code here:
+        if(!escribir_user_remove.getText().equals("Ingrese el nombre de usuario a eliminar...")){
+            Usuario.eliminar_usuario(escribir_user_remove.getText(), Usuarios);
+        }
+        
     }//GEN-LAST:event_boton_remove_userActionPerformed
 
     private void escribir_user_removeMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_escribir_user_removeMousePressed
@@ -126,7 +137,7 @@ public class Ventana_Remove extends javax.swing.JFrame {
     private void boton_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_volverActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Funciones.abrir_ventana();
+        origen.setVisible(true);
     }//GEN-LAST:event_boton_volverActionPerformed
 
     /**

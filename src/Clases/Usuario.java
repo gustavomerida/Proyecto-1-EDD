@@ -85,54 +85,67 @@ public class Usuario {
     }
     
     public static Usuario añadir_usuario(String x, List lista_usuarios){
-        if(lista_usuarios.buscar(x) == null){
-            Usuario usuario = new Usuario(x);
-            lista_usuarios.insertar_al_final(usuario); 
-            JOptionPane.showMessageDialog(null, "Usuario Añadido Exitosamente");
-            return usuario;
+        if (x.startsWith("@")){
+            if (lista_usuarios.buscar(x) == null) {
+                Usuario usuario = new Usuario(x);
+                lista_usuarios.insertar_al_final(usuario);
+                JOptionPane.showMessageDialog(null, "Usuario Añadido Exitosamente");
+                return usuario;
+            } else {
+                JOptionPane.showMessageDialog(null, "Este Usuario ya existe");
+                Nodo<Usuario> n = lista_usuarios.buscar(x);
+                Usuario user = n.getElement();
+                return user;
+            }
         }else{
-            JOptionPane.showMessageDialog(null, "Este Usuario ya existe");
-            Nodo<Usuario> n = lista_usuarios.buscar(x);   
-            Usuario user = n.getElement();
-            return user;
+            JOptionPane.showMessageDialog(null, "El nombre de usuario debe empezar con un '@'");
+            return null;
         }
     }
     
     public static void añadir_relaciones(Usuario usuario, String x, List lista_usuario){
         Conexion c = new Conexion(x);
         List L = usuario.getRelaciones();
-
-        if (L != null){
-            if (L.buscar_relacion(x) == null){
-                L.insertar_al_final(c);
-                JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
-            }else{
-                JOptionPane.showMessageDialog(null, "Ya tienes una relacion con " + x);
-            }
-        }else{
+        //Aquí hay que validar que exista x dentro de la lista.
+        if (x.startsWith("@")) {
+            if (L != null) {
+                if (L.buscar_relacion(x) == null) {
+                    L.insertar_al_final(c);
+                    JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Ya tienes una relacion con " + x);
+                }
+            } else {
                 List aux = new List();
                 aux.insertar_al_final(c);
                 usuario.setRelaciones(aux);
                 JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
             }
-        
+        } else {
+            JOptionPane.showMessageDialog(null, "El nombre de usuario debe empezar con un '@'");
+        }
     }
     
     public static void eliminar_usuario(String x, List lista_usuarios){
         Nodo <Usuario> nodo_usuario = lista_usuarios.buscar(x);
-        lista_usuarios.eliminar(nodo_usuario);
-        Nodo<Usuario> nodo_u = lista_usuarios.getFirst();
-        for (int i = 0; i < lista_usuarios.getSize(); i++){            
-            Usuario u = nodo_u.getElement();
-            List list_elim = u.getRelaciones();
-            if(list_elim != null){
-                Nodo nodo_elim = list_elim.buscar_relacion(x);
-                if (nodo_elim != null){
-                    u.getRelaciones().eliminar(nodo_elim);
+        if(nodo_usuario==null){
+            JOptionPane.showMessageDialog(null, "Este usuario no está registrado");
+        }else{
+            lista_usuarios.eliminar(nodo_usuario);
+            Nodo<Usuario> nodo_u = lista_usuarios.getFirst();
+            for (int i = 0; i < lista_usuarios.getSize(); i++) {
+                Usuario u = nodo_u.getElement();
+                List list_elim = u.getRelaciones();
+                if (list_elim != null) {
+                    Nodo nodo_elim = list_elim.buscar_relacion(x);
+                    if (nodo_elim != null) {
+                        u.getRelaciones().eliminar(nodo_elim);
+                    }
+                    nodo_u = nodo_u.getNext();
                 }
-            nodo_u = nodo_u.getNext();
             }
-            
+            JOptionPane.showMessageDialog(null, "Usuario eliminado exitosamente");
         }
-        }
+
+    }
 }

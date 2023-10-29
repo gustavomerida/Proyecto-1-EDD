@@ -13,15 +13,27 @@ import proyecto_1_edd.*;
  * @author Gustavo
  */
 public class Ventana_Add extends javax.swing.JFrame {
-
+    
+    List Usuarios;
+    Ventana_Principal origen;
+    Usuario nuevo;
     /**
      * Creates new form prueba
+     * @param
      */
     public Ventana_Add() {
         initComponents();
         this.setLocationRelativeTo(null);
-    }
 
+    }
+    
+    public Ventana_Add(List lista_grafo, Ventana_Principal origen, Usuario nuevo) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.Usuarios = lista_grafo;
+        this.origen = origen;
+        this.nuevo = nuevo;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,12 +51,13 @@ public class Ventana_Add extends javax.swing.JFrame {
         escribir_user_add = new javax.swing.JTextField();
         escribir_seguido = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        texto_arriba = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
-        jLabel1.setText("USUARIO:");
+        jLabel1.setText("SEGUIDORES:");
 
         jButton1.setText("Volver al inicio");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -53,7 +66,7 @@ public class Ventana_Add extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Añadir relacion");
+        jButton2.setText("Añadir seguido");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -63,7 +76,7 @@ public class Ventana_Add extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Bodoni MT", 1, 18)); // NOI18N
         jLabel2.setText("SIGUE A:");
 
-        boton_add_user.setText("Añadir");
+        boton_add_user.setText("Añadir seguidor");
         boton_add_user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_add_userActionPerformed(evt);
@@ -74,7 +87,7 @@ public class Ventana_Add extends javax.swing.JFrame {
         escribir_user_add.setBackground(new java.awt.Color(255, 255, 255));
         escribir_user_add.setFont(new java.awt.Font("Bell MT", 0, 12)); // NOI18N
         escribir_user_add.setForeground(new java.awt.Color(204, 204, 204));
-        escribir_user_add.setText("Ingrese un nombre de usuario nuevo...");
+        escribir_user_add.setText("Ingrese un nombre de usuario existente...");
         escribir_user_add.setToolTipText("");
         escribir_user_add.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         escribir_user_add.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -108,19 +121,13 @@ public class Ventana_Add extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        texto_arriba.setFont(new java.awt.Font("Bell MT", 0, 12)); // NOI18N
+        texto_arriba.setText("Indica la relación que");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jButton1)))
-                .addContainerGap(375, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,6 +137,18 @@ public class Ventana_Add extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(texto_arriba, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(172, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -147,8 +166,10 @@ public class Ventana_Add extends javax.swing.JFrame {
                         .addGap(63, 63, 63)
                         .addComponent(boton_add_user))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(texto_arriba)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(57, 57, 57)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
@@ -173,22 +194,31 @@ public class Ventana_Add extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Funciones.abrir_ventana();
+        this.origen.setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if (!String.valueOf(escribir_seguido.getText()).equals("Ingrese el nombre del usuario a seguir...")){
+            Usuario.añadir_relaciones(nuevo, escribir_seguido.getText(), Usuarios);
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void boton_add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_add_userActionPerformed
         // TODO add your handling code here:
+        if(!escribir_user_add.getText().equals("Ingrese un nombre de usuario existente...")){
+            //
+            String org = escribir_user_add.getText();
+            Funciones.añadir_relacion1_completo(Usuarios, org, nuevo);
+        }
     }//GEN-LAST:event_boton_add_userActionPerformed
 
     private void escribir_user_addMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_escribir_user_addMousePressed
         // TODO add your handling code here:
         escribir_user_add.setEditable(true);
-        if(escribir_user_add.getText().equals("Ingrese un nombre de usuario nuevo...")){
+        if(escribir_user_add.getText().equals("Ingrese un nombre de usuario existente...")){
             escribir_user_add.setText("");
             escribir_user_add.setForeground(Color.black);
         }
@@ -211,7 +241,7 @@ public class Ventana_Add extends javax.swing.JFrame {
             escribir_seguido.setForeground(Color.black);
         }
         if (String.valueOf(escribir_user_add.getText()).isEmpty()){
-            escribir_user_add.setText("Ingrese un nombre de usuario nuevo...");
+            escribir_user_add.setText("Ingrese un nombre de usuario existente...");
             escribir_user_add.setForeground(Color.gray);
         }
 
@@ -266,5 +296,13 @@ public class Ventana_Add extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel texto_arriba;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the texto_arriba
+     */
+    public javax.swing.JLabel getTexto_arriba() {
+        return texto_arriba;
+    }
 }

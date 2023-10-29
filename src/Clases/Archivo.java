@@ -223,7 +223,7 @@ public class Archivo {
                 PrintWriter pw = new PrintWriter(fichero);
                 pw.print(x);
                 pw.close();
-                JOptionPane.showMessageDialog(null, "Guardado Exitosamente en archivo.txt");
+                JOptionPane.showMessageDialog(null, "Guardado Exitosamente como 'archivo.txt' en Proyeto_1_EDD");
 
             } catch (IOException e) {
             } finally {

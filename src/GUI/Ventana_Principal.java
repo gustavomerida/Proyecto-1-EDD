@@ -9,20 +9,22 @@ import EDD.*;
 import proyecto_1_edd.*;
 import Clases.*;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Estudiante
  */
 public class Ventana_Principal extends javax.swing.JFrame {
-
+    List Usuarios;
     /**
      * Creates new form Ventana_Principal
      */
     public Ventana_Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(Color.WHITE); 
+        this.getContentPane().setBackground(Color.WHITE);
+        this.Usuarios = new List();
     }
 
     /**
@@ -263,13 +265,14 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void boton_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_guardarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:   
+        Funciones.guardar_completo(Usuarios);
     }//GEN-LAST:event_boton_guardarActionPerformed
 
     private void boton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_eliminarActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        Ventana_Remove ventana_rm = new Ventana_Remove();
+        Ventana_Remove ventana_rm = new Ventana_Remove(Usuarios, this);
         ventana_rm.setVisible(true);
         ventana_rm.setSize(500,350);
         ventana_rm.getContentPane().setBackground(Color.WHITE);
@@ -278,24 +281,31 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     private void boton_cargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_cargarActionPerformed
         // TODO add your handling code here:
-        Funciones.cargar_completo();
+        Funciones.cargar_completo(Usuarios);
 
         
     }//GEN-LAST:event_boton_cargarActionPerformed
 
     private void boton_añadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_añadirActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        Ventana_Add ventana_add = new Ventana_Add();
-        ventana_add.setVisible(true);
-        ventana_add.setSize(500,350);
-        ventana_add.getContentPane().setBackground(Color.WHITE);
+        Usuario nuevo = Funciones.añadir_completo(Usuarios);
+//        String x = JOptionPane.showInputDialog(null,"Escribe el nombre del nuevo usuario: ");
+//        Usuario.añadir_usuario(x, Usuarios);
+
+        if(nuevo!=null){
+            this.setVisible(false);
+            Ventana_Add ventana_add = new Ventana_Add(Usuarios, this, nuevo);
+            ventana_add.setVisible(true);
+            ventana_add.setSize(500, 350);
+            ventana_add.getContentPane().setBackground(Color.WHITE); 
+            ventana_add.getTexto_arriba().setText("Indica la relacion que " + nuevo.getNombre() + "tiene con el resto de usuarios.");
+        }
         
     }//GEN-LAST:event_boton_añadirActionPerformed
 
     private void boton_mostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_mostrarActionPerformed
         // TODO add your handling code here:
-        Funciones.mostrar_grafo();
+        Funciones.mostrar_grafo(Usuarios);
     }//GEN-LAST:event_boton_mostrarActionPerformed
 
     /**
@@ -335,6 +345,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton_añadir;
