@@ -9,7 +9,7 @@ package EDD;
  * @author Gustavo Mérida 
  * Version 1
  */
-public class List {
+public class List<T> {
     private Nodo first; 
     private Nodo last; 
     private int size; 
@@ -122,26 +122,20 @@ public class List {
         Nodo newNodo = new Nodo(x);
         if(this.isEmpty()){            
             first = last = newNodo;        }
-        else{            
-            last.setNext(newNodo);            
-            last = newNodo;        
+        else{             
+            this.getLast().setNext(newNodo);  
+            newNodo.setPrev(last);
+            this.setLast(newNodo);  
+            
         }        
         size++;    
     }
     
-    /**
-     * Lee el nombre de usuario.
-     * @param pValor apuntador a Nodo de tipo Ususario.
-     * @return x El String nombre del usuario.
-     */
     public String read(Nodo <Usuario> pValor){
         String x = pValor.getElement().getNombre();
         return x;
     }
     
-    /**
-     * Imprime los elementos de la lista de usuarios.
-     */
     public void travel() {
         Nodo<Usuario> pAux;
         pAux = this.first();
@@ -152,15 +146,72 @@ public class List {
             }
     }
 
-    /**
-     * Imprime la lista de relaciones de un usuario.
-     */
+////
+
     public void travelr() {
-        Nodo<T> pAux;
+        Nodo<Conexion> pAux;
         pAux = this.first();
         for (int i = 0; i < this.getSize(); i++) {
-            System.out.println(pAux.getElement());
+            System.out.println(pAux.getElement().getNombre());
             pAux = pAux.getNext();
             }
         }
+    
+    public void eliminar(Nodo pValor){
+        if (pValor != null){
+            if (pValor.getPrev() != null){                
+                if (pValor.getNext() != null) {
+                    pValor.getPrev().setNext(pValor.getNext());
+                    pValor.getNext().setPrev(pValor.getPrev());
+                }
+                else {
+                    pValor.getPrev().setNext(null);
+                    this.setLast(pValor.getPrev());
+                        }     
+                }
+            else {
+                if (pValor.getNext() != null) {
+                    pValor.getNext().setPrev(null);
+                    this.setFirst(pValor.getNext());
+                }
+                else{
+                    this.setLast(pValor.getPrev());
+                }
+            }
+            pValor.setElement(null);
+            pValor.setNext(null);
+            pValor.setPrev(null);
+        }
+        size--;
+    }
+    
+    public Nodo buscar(String nombre) {
+        Nodo<Usuario> pAux;
+        pAux = this.first();
+        while (pAux != null){
+            String name = pAux.getElement().getNombre();
+            if (name.equals(nombre)) {
+                return pAux;
+            }
+            else {
+                pAux = pAux.getNext();
+            }
+        }
+        return null;
+    }
+    
+    public Nodo buscar_relacion(String nombre) {
+        Nodo<Conexion> pAux;
+        pAux = this.first();
+        while (pAux != null){
+            String name = pAux.getElement().getNombre();
+            if (name.equals(nombre)) {
+                return pAux;
+            }
+            else {
+                pAux = pAux.getNext();
+            }
+        }
+        return null;
+    }
 }

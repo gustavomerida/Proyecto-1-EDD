@@ -189,7 +189,6 @@ public class Ventana_Add extends javax.swing.JFrame {
         // TODO add your handling code here:
         escribir_user_add.setEditable(true);
         if(escribir_user_add.getText().equals("Ingrese un nombre de usuario nuevo...")){
-            //
             escribir_user_add.setText("");
             escribir_user_add.setForeground(Color.black);
         }
