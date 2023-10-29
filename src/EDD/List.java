@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package EDD;
-
+import Clases.*;
 /**
  * Clase Lista
  * @author Gustavo Mérida 
