@@ -7,7 +7,7 @@ import Clases.*;
 /**
  * Clase Lista
  * @author Gustavo Mérida 
- * Version 1
+ * Version final
  */
 public class List<T> {
     private Nodo first; 
@@ -100,20 +100,20 @@ public class List<T> {
      * @param pValor El nodo después del cual se insertará el elemento.
      */
     
-    public void insert(T x, Nodo pValor){
-        Nodo newNodo = new Nodo(x);
-        if (this.first()==this.last()){
-            newNodo.setNext(first);
-            this.first = newNodo;
-            size++;
-        }else{
-            if(pValor!=this.last){
-                newNodo.setNext(pValor.getNext());
-                pValor.setNext(newNodo);
-                size++;
-            }
-        }
-    }
+//    public void insert(T x, Nodo pValor){
+//        Nodo newNodo = new Nodo(x);
+//        if (this.first()==this.last()){
+//            newNodo.setNext(first);
+//            this.first = newNodo;
+//            size++;
+//        }else{
+//            if(pValor!=this.last){
+//                newNodo.setNext(pValor.getNext());
+//                pValor.setNext(newNodo);
+//                size++;
+//            }
+//        }
+//    }
      /**
      * Agrega un elemento al final de la lista.
      * @param x El elemento a agregar.
@@ -131,11 +131,19 @@ public class List<T> {
         size++;    
     }
     
+     /**
+     * Retorna el nombre de usuario.
+     * @param pValor El nodo a leer.
+     */
     public String read(Nodo <Usuario> pValor){
         String x = pValor.getElement().getNombre();
         return x;
     }
-    
+
+    /**
+     * Imprime la lista.
+     * 
+     */
     public void travel() {
         Nodo<Usuario> pAux;
         pAux = this.first();
@@ -146,8 +154,10 @@ public class List<T> {
             }
     }
 
-////
-
+    /**
+     * Imprime la lista de relaciones de un Usuario.
+     *
+     */
     public void travelr() {
         Nodo<Conexion> pAux;
         pAux = this.first();
@@ -156,35 +166,45 @@ public class List<T> {
             pAux = pAux.getNext();
             }
         }
-    
+     
+    /**
+     *Elimina un nodo de la lista.
+     * @param pValor El nodo a eliminar.
+     */
     public void eliminar(Nodo pValor){
         if (pValor != null){
-            if (pValor.getPrev() != null){                
-                if (pValor.getNext() != null) {
-                    pValor.getPrev().setNext(pValor.getNext());
-                    pValor.getNext().setPrev(pValor.getPrev());
+            if (this.getSize() == 1){
+                this.empty();
+            }else{
+                if (pValor.getPrev() != null) {
+                    if (pValor.getNext() != null) {
+                        pValor.getPrev().setNext(pValor.getNext());
+                        pValor.getNext().setPrev(pValor.getPrev());
+                    } else {
+                        pValor.getPrev().setNext(null);
+                        this.setLast(pValor.getPrev());
+                    }
+                } else {
+                    if (pValor.getNext() != null) {
+                        pValor.getNext().setPrev(null);
+                        this.setFirst(pValor.getNext());
+                    } else {
+                        this.setLast(pValor.getPrev());
+                    }
                 }
-                else {
-                    pValor.getPrev().setNext(null);
-                    this.setLast(pValor.getPrev());
-                        }     
-                }
-            else {
-                if (pValor.getNext() != null) {
-                    pValor.getNext().setPrev(null);
-                    this.setFirst(pValor.getNext());
-                }
-                else{
-                    this.setLast(pValor.getPrev());
-                }
+                pValor.setElement(null);
+                pValor.setNext(null);
+                pValor.setPrev(null);
+                size--;
             }
-            pValor.setElement(null);
-            pValor.setNext(null);
-            pValor.setPrev(null);
         }
-        size--;
     }
-    
+
+     /**
+     * Busca un elemento en una lista.
+     * @param nombre El nombre de usuario a buscar.
+     * @return apuntador al nodo que contiene el elemento buscado. Null si no lo encuentra.
+     */
     public Nodo buscar(String nombre) {
         Nodo<Usuario> pAux;
         pAux = this.first();
@@ -199,7 +219,12 @@ public class List<T> {
         }
         return null;
     }
-    
+
+     /**
+     * Busca una relacion en la lista de relaciones de un Usuario.
+     * @param nombre El nombre de usuario a buscar.
+     * @return apuntador al nodo que contiene el elemento buscado. Null si no lo encuentra
+     */
     public Nodo buscar_relacion(String nombre) {
         Nodo<Conexion> pAux;
         pAux = this.first();

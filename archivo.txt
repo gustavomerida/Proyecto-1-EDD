@@ -1,3 +1,2 @@
 usuarios
-@gustavo
 relaciones

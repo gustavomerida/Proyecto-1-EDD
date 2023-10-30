@@ -45,7 +45,7 @@ public class Funciones {
             for (int i = 0; i < lista_usuarios.getSize(); i++) {
                 node = graph.addNode(pAux.getElement().getNombre());
                 node.addAttribute("ui.label", pAux.getElement().getNombre());
-                if (false){
+                if (pAux.getElement().isFuerte()){
                     node.addAttribute("ui.color", "#FF0000");
                     node.addAttribute("ui.style", "fill-color: #FF0000;");
                 }
@@ -55,19 +55,28 @@ public class Funciones {
             pAux = lista_usuarios.getFirst();
             for (int h = 0; h < lista_usuarios.getSize(); h++) {
                 List rel = pAux.getElement().getRelaciones();
-                if(rel!=null){
+                if(!rel.isEmpty()){
                     Nodo <Conexion> y = rel.getFirst();
                     Edge edge;
                     for (int j = 0; j < rel.getSize(); j++) {
                         String origen = pAux.getElement().getNombre();
                         String relacion = y.getElement().getNombre();
-                        //Condicional color
-                        edge = graph.addEdge(origen + "-" + relacion, origen, relacion, true);
-                        if(y.getElement().getFuerte() == true){
-                            edge.addAttribute("ui.color", "#00FF00");
-                            edge.addAttribute("ui.style", "fill-color: #00FF00;");
+                        if(lista_usuarios.buscar(relacion) != null){
+                            if (lista_usuarios.buscar(origen) != null){
+                                edge = graph.addEdge(origen + "-" + relacion, origen, relacion, true);
+                                if (y.getElement().getFuerte() == true) {
+                                    edge.addAttribute("ui.color", "#00FF00");
+                                    edge.addAttribute("ui.style", "fill-color: #00FF00;");
+                                }
+                                y = y.getNext();
+                            }else{
+                                lista_usuarios.eliminar(pAux);
+                            }               
                         }
-                        y = y.getNext();
+                        else{
+                            rel.eliminar(y);
+                            guardar_completo(lista_usuarios);
+                        }
                     }
                 }
                 pAux = pAux.getNext();
@@ -84,12 +93,15 @@ public class Funciones {
     
     public static List cargar_completo(List Usuarios){
         String file = Archivo.choose_archivo();
-        String[] usuarios_relaciones = Archivo.cargar_archivo(file);
-        
-        Archivo.cargar_usuarios(usuarios_relaciones[0], Usuarios);
-        Archivo.cargar_relaciones(usuarios_relaciones[1], Usuarios);
-        
-        JOptionPane.showMessageDialog(null, "Archivo cargado exitosamente. Guarde los cambios que realice a partir de ahora.");
+        if (file == null){
+            JOptionPane.showMessageDialog(null, "No se seleccionó ningún archivo.");
+        }else{
+            String[] usuarios_relaciones = Archivo.cargar_archivo(file);
+
+            Archivo.cargar_usuarios(usuarios_relaciones[0], Usuarios);
+            Archivo.cargar_relaciones(usuarios_relaciones[1], Usuarios);
+            JOptionPane.showMessageDialog(null, "Archivo cargado exitosamente. Guarde los cambios que realice a partir de ahora.");
+        } 
         
         return Usuarios;
     }
@@ -99,6 +111,7 @@ public class Funciones {
         String y = Archivo.escribir_relaciones(Usuarios);
         String z = "usuarios\n" + x + "relaciones\n" + y;
         Archivo.escribir_archivo(z);
+        
     }
     
     public static Usuario añadir_completo(List Usuarios){
@@ -109,8 +122,13 @@ public class Funciones {
     
     public static void añadir_relacion1_completo(List Usuarios, String origen, Usuario destino){
         Nodo <Usuario> desde = Usuarios.buscar(origen);
-        Usuario d = desde.getElement();
-        Usuario.añadir_relaciones(d, destino.getNombre(), Usuarios);  
+        if (desde!=null){
+            Usuario d = desde.getElement();
+            Usuario.añadir_relaciones(d, destino.getNombre(), Usuarios);
+        }else{
+            JOptionPane.showMessageDialog(null, "No se encontró el usuario " + origen);
+        }
+ 
     }
     
     

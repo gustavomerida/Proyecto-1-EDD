@@ -19,7 +19,7 @@ public class Usuario {
     
     public Usuario(String nombre) {
         this.nombre = nombre;
-        this.relaciones = null;
+        this.relaciones = new List();
         this.fuerte = false;
     }
 
@@ -107,22 +107,27 @@ public class Usuario {
         Conexion c = new Conexion(x);
         List L = usuario.getRelaciones();
         //Aquí hay que validar que exista x dentro de la lista.
-        if (x.startsWith("@")) {
-            if (L != null) {
-                if (L.buscar_relacion(x) == null) {
-                    L.insertar_al_final(c);
-                    JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
+        Nodo prueba = lista_usuario.buscar(x);
+        if (prueba!=null){
+            if (x.startsWith("@")) {
+                if (!L.isEmpty()) {
+                    if (L.buscar_relacion(x) == null) {
+                        L.insertar_al_final(c);
+                        JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya tienes una relacion con " + x);
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Ya tienes una relacion con " + x);
+                    List aux = new List();
+                    aux.insertar_al_final(c);
+                    usuario.setRelaciones(aux);
+                    JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
                 }
             } else {
-                List aux = new List();
-                aux.insertar_al_final(c);
-                usuario.setRelaciones(aux);
-                JOptionPane.showMessageDialog(null, "Haz establecido una relacion con " + x);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "El nombre de usuario debe empezar con un '@'");
+                JOptionPane.showMessageDialog(null, "El nombre de usuario debe empezar con un '@'");
+            }        
+        }else{
+            JOptionPane.showMessageDialog(null, "No se encontró el usuario " + x);
         }
     }
     
@@ -136,10 +141,10 @@ public class Usuario {
             for (int i = 0; i < lista_usuarios.getSize(); i++) {
                 Usuario u = nodo_u.getElement();
                 List list_elim = u.getRelaciones();
-                if (list_elim != null) {
-                    Nodo nodo_elim = list_elim.buscar_relacion(x);
+                if (!list_elim.isEmpty()) {
+                    Nodo <Conexion> nodo_elim = list_elim.buscar_relacion(x);
                     if (nodo_elim != null) {
-                        u.getRelaciones().eliminar(nodo_elim);
+                        list_elim.eliminar(nodo_elim);
                     }
                     nodo_u = nodo_u.getNext();
                 }

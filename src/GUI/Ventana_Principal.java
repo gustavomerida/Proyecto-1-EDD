@@ -267,6 +267,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private void boton_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_guardarActionPerformed
         // TODO add your handling code here:   
         Funciones.guardar_completo(Usuarios);
+        JOptionPane.showMessageDialog(null, "Guardado Exitosamente como 'archivo.txt' en Proyeto_1_EDD");
     }//GEN-LAST:event_boton_guardarActionPerformed
 
     private void boton_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_eliminarActionPerformed
@@ -298,7 +299,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
             ventana_add.setVisible(true);
             ventana_add.setSize(500, 350);
             ventana_add.getContentPane().setBackground(Color.WHITE); 
-            ventana_add.getTexto_arriba().setText("Indica la relacion que " + nuevo.getNombre() + "tiene con el resto de usuarios.");
+            ventana_add.getTexto_arriba().setText("Indica la relacion que " + nuevo.getNombre() + " tiene con el resto de usuarios.");
         }
         
     }//GEN-LAST:event_boton_añadirActionPerformed

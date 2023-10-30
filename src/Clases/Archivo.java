@@ -27,11 +27,12 @@ public class Archivo {
      * @return la informacion del archivo en modo string
      * @param 
      */
-    public static String choose_archivo() {
-        String archivo = "";
-        Scanner entrada = null;
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.showOpenDialog(fileChooser);
+public static String choose_archivo() {
+    String archivo = "";
+    Scanner entrada = null;
+    JFileChooser fileChooser = new JFileChooser();
+    int resultado = fileChooser.showOpenDialog(null);
+    if (resultado == JFileChooser.APPROVE_OPTION) {
         try {
             String ruta = fileChooser.getSelectedFile().getAbsolutePath();                                        
             File f = new File(ruta);
@@ -43,7 +44,7 @@ public class Archivo {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (NullPointerException e) {
-            System.out.println("No se ha seleccionado ningún fichero");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún fichero", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -51,8 +52,28 @@ public class Archivo {
                 entrada.close();
             }
         }
-        return null;
     }
+    return null;
+}
+    
+//    public static boolean validarArchivo(String archivo) {
+//        if (new File(archivo).isFile()) {
+//            try {
+//                Scanner entrada = new Scanner(new File(archivo));
+//                while (entrada.hasNextLine()) {
+//                    String linea = entrada.nextLine();
+//                    if (linea.contains("relaciones")) {
+//                        entrada.close();
+//                        return true;
+//                    }
+//                }
+//                entrada.close();
+//            } catch (FileNotFoundException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        }
+//        return false;
+//    }
     
 //    public static void read_archivo(File f) {
 //        try (BufferedReader br = new BufferedReader(new FileReader(f))){
@@ -115,7 +136,7 @@ public class Archivo {
             Nodo<Usuario> pAux = lista_usuarios.getFirst();
             for (int i = 0; i < lista_usuarios.getSize(); i++) {
                 if (pAux.getElement().getNombre().equals(relacion[0])) {
-                    if (pAux.getElement().getRelaciones() == null) {
+                    if (pAux.getElement().getRelaciones().isEmpty()) {
                         List aux = new List();
                         Conexion n;
                         n = new Conexion(relacion[1]);
@@ -223,7 +244,7 @@ public class Archivo {
                 PrintWriter pw = new PrintWriter(fichero);
                 pw.print(x);
                 pw.close();
-                JOptionPane.showMessageDialog(null, "Guardado Exitosamente como 'archivo.txt' en Proyeto_1_EDD");
+//                JOptionPane.showMessageDialog(null, "Guardado Exitosamente como 'archivo.txt' en Proyeto_1_EDD");
 
             } catch (IOException e) {
             } finally {

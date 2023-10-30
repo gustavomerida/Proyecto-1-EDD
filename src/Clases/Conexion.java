@@ -46,6 +46,9 @@ public class Conexion {
         this.fuerte = fuerte;
     } 
     
+    /**
+     * Verifica que una conexion entre un usuario y otra parte de un componente fuertemente conectado del grafo.
+     **/
     public boolean ConexionFuerte (List usuarios, Nodo <Usuario> user) {
         List laux;
         laux = new List();
